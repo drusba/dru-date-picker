@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { OPTION_KEYS } from '../core/constants.js';
 import { applyOptionsToElement, register } from '../element/DruDatePicker.js';
 
@@ -17,9 +17,11 @@ function pickOptions(props) {
 
 export const DruDatePicker = React.forwardRef(function DruDatePicker(props, forwardedRef) {
     const innerRef = useRef(null);
+    const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
         register();
+        setIsClient(true);
     }, []);
 
     useEffect(() => {
@@ -61,6 +63,17 @@ export const DruDatePicker = React.forwardRef(function DruDatePicker(props, forw
         if (typeof forwardedRef === 'function') forwardedRef(api);
         else forwardedRef.current = api;
     });
+
+    if (!isClient) {
+        return React.createElement('input', {
+            className: props.className || 'form-control dateInput',
+            style: props.style,
+            readOnly: true,
+            placeholder: props.placeholder || props.name || 'Select Date',
+            value: props.value || '',
+            disabled: props.disabled,
+        });
+    }
 
     return React.createElement('dru-date-picker', {
         ref: innerRef,

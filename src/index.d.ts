@@ -120,6 +120,10 @@ declare module 'dru-date-picker/react' {
     export default DruDatePicker;
 }
 
+declare module 'dru-date-picker/next' {
+    export { DruDatePicker, default } from 'dru-date-picker/react';
+}
+
 declare module 'dru-date-picker/nuxt' {
     import type { NuxtModule } from '@nuxt/schema';
     const module: NuxtModule;

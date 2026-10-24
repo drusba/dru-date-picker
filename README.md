@@ -1,6 +1,6 @@
 # dru-date-picker
 
-iOS-style wheel date/time picker for **Vue 3**, **React**, **Nuxt 3**, and **vanilla JavaScript**.
+iOS-style wheel date/time picker for **Vue 3**, **React**, **Next.js**, **Nuxt 3**, and **vanilla JavaScript**.
 
 Every instance can set its own **colors**, **button text**, and **date type**.
 
@@ -139,6 +139,36 @@ export function Example() {
   )
 }
 ```
+
+## Next.js
+
+Use the Next entry so the picker only mounts in the browser. That avoids App Router / SSR errors with the custom element.
+
+```jsx
+'use client'
+
+import { useState } from 'react'
+import { DruDatePicker } from 'dru-date-picker/next'
+
+export default function BirthdayField() {
+  const [date, setDate] = useState('')
+
+  return (
+    <DruDatePicker
+      value={date}
+      onChange={setDate}
+      mode="date"
+      minYear="now-120"
+      maxYear="now"
+      confirmText="Set Date"
+      cancelText="Close"
+      accentColor="#4e169c"
+    />
+  )
+}
+```
+
+Works with the App Router and the Pages Router. Import it from a Client Component, or keep `'use client'` on the file that renders it.
 
 ## Vanilla JavaScript
 
