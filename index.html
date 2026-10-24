@@ -72,14 +72,14 @@
 
         <section class="card">
             <h2>Birthday date</h2>
-            <p>Purple theme, Close / Set Date, DD-MM-YYYY</p>
+            <p>Years now-120 to now · Close / Set Date</p>
             <div id="birthday"></div>
             <div class="value" id="birthday-value"></div>
         </section>
 
         <section class="card">
             <h2>Appointment datetime</h2>
-            <p>Teal theme, Cancel / Done, DD-MM-YYYY HH:mm</p>
+            <p>Years now to now+5 · Cancel / Done</p>
             <div id="appointment"></div>
             <div class="value" id="appointment-value"></div>
         </section>
@@ -93,7 +93,7 @@
 
         <section class="card">
             <h2>Year and month</h2>
-            <p>Spanish months, green theme</p>
+            <p>Fixed 1990 to now+1 · Spanish months</p>
             <div id="year-month"></div>
             <div class="value" id="year-month-value"></div>
         </section>
@@ -109,8 +109,8 @@
             placeholder: 'Select birthday',
             confirmText: 'Set Date',
             cancelText: 'Close',
-            minYear: 1920,
-            maxYear: new Date().getFullYear(),
+            minYear: 'now-120',
+            maxYear: 'now',
             accentColor: '#4e169c',
         });
 
@@ -124,8 +124,8 @@
             cancelText: 'Cancel',
             accentColor: '#0f766e',
             highlightColor: 'rgba(15, 118, 110, 0.12)',
-            minYear: 2020,
-            maxYear: new Date().getFullYear() + 3,
+            minYear: 'now',
+            maxYear: 'now+5',
         });
 
         const time = createDatePicker('#time', {
@@ -146,6 +146,8 @@
             locale: 'es',
             label: 'Mes',
             placeholder: 'Elige mes',
+            minYear: 1990,
+            maxYear: 'now+1',
             confirmText: 'Guardar',
             cancelText: 'Cerrar',
             accentColor: '#15803d',

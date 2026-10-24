@@ -18,6 +18,35 @@ export function currentYear() {
     return dayjs().year();
 }
 
+export function parseYearExpression(value, fallback) {
+    if (value === undefined || value === null || value === '') return fallback;
+    if (typeof value === 'number' && Number.isFinite(value)) return Math.trunc(value);
+
+    const text = String(value).trim().toLowerCase();
+    const now = currentYear();
+    if (text === 'now' || text === 'current') return now;
+
+    const relative = text.match(/^now\s*([+-])\s*(\d+)$/);
+    if (relative) {
+        const amount = Number(relative[2]);
+        return relative[1] === '-' ? now - amount : now + amount;
+    }
+
+    const parsed = Number(text);
+    return Number.isFinite(parsed) ? Math.trunc(parsed) : fallback;
+}
+
+export function resolveYearBound(explicit, offset, fallback) {
+    if (explicit !== undefined && explicit !== null && explicit !== '') {
+        return parseYearExpression(explicit, fallback);
+    }
+    if (offset !== undefined && offset !== null && offset !== '') {
+        const parsed = Number(offset);
+        if (Number.isFinite(parsed)) return currentYear() + Math.trunc(parsed);
+    }
+    return parseYearExpression(fallback, currentYear());
+}
+
 export function defaultFormat(mode) {
     switch (mode) {
         case 'datetime':

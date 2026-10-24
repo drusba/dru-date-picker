@@ -31,7 +31,8 @@ The web component also injects the CSS the first time it mounts, so a separate i
 | `placeholder` | `Select Date` | Input placeholder |
 | `locale` | `en` | Month names via `Intl` |
 | `months` | from locale | Override the 12 month labels |
-| `minYear` / `maxYear` | `1920` / current year | Year wheel bounds |
+| `minYear` / `maxYear` | `1920` / `now` | Year wheel bounds. Number, `'now'`, or `'now-120'` / `'now+5'` |
+| `minYearOffset` / `maxYearOffset` | — | Offset from the current year, e.g. `-100` and `5` |
 | `minDate` / `maxDate` | — | Optional date bounds |
 | `accentColor` | `#4e169c` | Buttons, title, selected item |
 | `textColor` | `#333333` | Input text |
@@ -48,6 +49,30 @@ dru-date-picker {
   --dru-accent: #0ea5e9;
   --dru-highlight: rgba(14, 165, 233, 0.12);
 }
+```
+
+Each instance sets its own year range. Bounds are resolved when the picker opens, so `'now'` always means the current year.
+
+```js
+// Birthday: 120 years back through this year
+minYear: 'now-120',
+maxYear: 'now',
+
+// Booking: this year through 5 years ahead
+minYear: 'now',
+maxYear: 'now+5',
+
+// Age gate: 18+
+minYearOffset: -120,
+maxYearOffset: -18,
+
+// Fixed years
+minYear: 2000,
+maxYear: 2030,
+```
+
+```html
+<dru-date-picker min-year="now-100" max-year="now+2"></dru-date-picker>
 ```
 
 Legacy props from the original Vue component still work: `showTime`, `formatToShow`, `formatToResponse`, `confirmLabel`, `birthday`, `startDate`.
@@ -67,6 +92,8 @@ app.use(DruDatePicker)
   v-model="date"
   mode="datetime"
   format="DD-MM-YYYY HH:mm"
+  min-year="now"
+  max-year="now+5"
   confirm-text="Done"
   cancel-text="Cancel"
   accent-color="#0ea5e9"
@@ -103,6 +130,8 @@ export function Example() {
       value={date}
       onChange={setDate}
       mode="date"
+      minYear="now-120"
+      maxYear="now"
       confirmText="Save"
       cancelText="Close"
       accentColor="#4e169c"
@@ -119,10 +148,15 @@ import { createDatePicker } from 'dru-date-picker'
 const picker = createDatePicker('#dob', {
   mode: 'date',
   format: 'DD-MM-YYYY',
+  minYear: 'now-120',
+  maxYear: 'now',
   confirmText: 'Save',
   cancelText: 'Close',
   accentColor: '#4e169c',
 })
+
+// Change bounds later without recreating the picker
+picker.setYearBounds(2000, 'now+2')
 
 picker.on('change', (event) => {
   console.log(event.detail.value, event.detail.date)

@@ -41,6 +41,10 @@ export function createDatePicker(target, options = {}) {
         close() {
             return el.close();
         },
+        setYearBounds(minYear, maxYear) {
+            if (minYear !== undefined) el.minYear = minYear;
+            if (maxYear !== undefined) el.maxYear = maxYear;
+        },
         on(eventName, handler) {
             el.addEventListener(eventName, handler);
             return () => el.removeEventListener(eventName, handler);

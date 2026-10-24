@@ -1,4 +1,4 @@
-import { clamp, dayjs, daysInMonth, formatTokens, formatWithMonths, parseIncomingDate, range } from './dates.js';
+import { clamp, dayjs, daysInMonth, formatTokens, formatWithMonths, parseIncomingDate, range, resolveYearBound } from './dates.js';
 
 export class PickerState {
     constructor(options) {
@@ -13,21 +13,25 @@ export class PickerState {
     }
 
     setOptions(options) {
+        const previousYear = this.years[this.yearIndex];
         this.options = options;
-        this.yearIndex = clamp(this.yearIndex, 0, Math.max(this.years.length - 1, 0));
+        const nextIndex = this.years.indexOf(previousYear);
+        this.yearIndex = nextIndex === -1
+            ? (previousYear < this.minYear ? 0 : Math.max(this.years.length - 1, 0))
+            : nextIndex;
         this.dayIndex = clamp(this.dayIndex, 0, Math.max(this.days.length - 1, 0));
     }
 
     get minYear() {
+        const fromOption = resolveYearBound(this.options.minYear, this.options.minYearOffset, 1920);
         const fromDate = parseIncomingDate(this.options.minDate);
-        const optionYear = this.options.minYear || 1920;
-        return fromDate ? Math.max(optionYear, fromDate.year()) : optionYear;
+        return fromDate ? Math.max(fromOption, fromDate.year()) : fromOption;
     }
 
     get maxYear() {
+        const fromOption = resolveYearBound(this.options.maxYear, this.options.maxYearOffset, 'now');
         const fromDate = parseIncomingDate(this.options.maxDate);
-        const optionYear = this.options.maxYear || dayjs().year();
-        return fromDate ? Math.min(optionYear, fromDate.year()) : optionYear;
+        return fromDate ? Math.min(fromOption, fromDate.year()) : fromOption;
     }
 
     get years() {

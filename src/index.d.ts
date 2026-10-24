@@ -11,8 +11,10 @@ export interface DatePickerOptions {
     mode?: DatePickerMode;
     format?: string;
     valueFormat?: string;
-    minYear?: number;
-    maxYear?: number;
+    minYear?: number | string;
+    maxYear?: number | string;
+    minYearOffset?: number;
+    maxYearOffset?: number;
     minDate?: string;
     maxDate?: string;
     label?: string;
@@ -45,6 +47,7 @@ export interface DatePickerInstance {
     value: string;
     open(): Promise<void> | void;
     close(): void;
+    setYearBounds(minYear?: number | string, maxYear?: number | string): void;
     on(eventName: string, handler: EventListener): () => void;
     destroy(): void;
 }
@@ -54,8 +57,10 @@ export declare class DruDatePickerElement extends HTMLElement {
     mode: DatePickerMode;
     format: string;
     valueFormat: string;
-    minYear: number;
-    maxYear: number;
+    minYear: number | string;
+    maxYear: number | string;
+    minYearOffset: number;
+    maxYearOffset: number;
     minDate: string;
     maxDate: string;
     label: string;

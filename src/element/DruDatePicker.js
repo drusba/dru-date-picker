@@ -75,7 +75,8 @@ export class DruDatePickerElement extends HTMLElement {
         if (prop === 'disabled' || prop === 'showTime') {
             return value === '' || value === 'true' || value === '1';
         }
-        if (prop === 'minYear' || prop === 'maxYear') {
+        if (prop === 'minYear' || prop === 'maxYear' || prop === 'minYearOffset' || prop === 'maxYearOffset') {
+            if (typeof value === 'string' && /^now/i.test(value.trim())) return value.trim();
             return toNumber(value, undefined);
         }
         return value;

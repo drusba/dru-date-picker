@@ -1,5 +1,5 @@
 import { COLOR_VARS, DEFAULT_COLORS, MODES } from './constants.js';
-import { currentYear, defaultFormat, defaultValueFormat, getMonthNames } from './dates.js';
+import { defaultFormat, defaultValueFormat, getMonthNames } from './dates.js';
 
 export function normalizeOptions(input = {}) {
     const mode = resolveMode(input);
@@ -13,8 +13,10 @@ export function normalizeOptions(input = {}) {
         mode,
         format: input.format || input.formatToShow || defaultFormat(mode),
         valueFormat: input.valueFormat || input.formatToResponse || defaultValueFormat(mode),
-        minYear: toNumber(input.minYear, 1920),
-        maxYear: toNumber(input.maxYear, currentYear()),
+        minYear: input.minYear,
+        maxYear: input.maxYear,
+        minYearOffset: input.minYearOffset,
+        maxYearOffset: input.maxYearOffset,
         minDate: input.minDate || '',
         maxDate: input.maxDate || '',
         label: input.label || '',
