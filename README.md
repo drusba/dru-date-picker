@@ -4,6 +4,10 @@ iOS-style wheel date/time picker for **Vue 3**, **React**, **Next.js**, **Nuxt 3
 
 Every instance can set its own **colors**, **button text**, and **date type**.
 
+<p align="center">
+  <img src="docs/demo.gif" alt="dru-date-picker demo" width="360" />
+</p>
+
 ## Install
 
 ```bash
