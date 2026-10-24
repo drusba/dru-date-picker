@@ -1,0 +1,248 @@
+.datepicker-parent-wrapper,
+.dru-date-root {
+    --dru-accent: #4e169c;
+    --dru-text: #333333;
+    --dru-muted: #6b7280;
+    --dru-panel-bg: #ffffff;
+    --dru-highlight: rgba(78, 22, 156, 0.08);
+    --dru-backdrop: rgba(24, 34, 48, 0.36);
+    --dru-border: #e5e7eb;
+}
+
+dru-date-picker {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.datepicker-parent-wrapper {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.datepicker-parent-wrapper .dateInput,
+dru-date-picker .dateInput {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px;
+    padding-right: 42px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--dru-border);
+    background-color: var(--dru-panel-bg);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='4' width='18' height='18' rx='2'/%3E%3Cpath d='M16 2v4M8 2v4M3 10h18'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px top 50%;
+    background-size: 20px 20px;
+    color: var(--dru-text);
+    box-sizing: border-box;
+    caret-color: transparent;
+    font-family: inherit;
+}
+
+.datepicker-parent-wrapper .dateInput:focus,
+dru-date-picker .dateInput:focus {
+    outline: none;
+    border-color: var(--dru-accent);
+}
+
+.datepicker-parent-wrapper .dateInput:disabled,
+dru-date-picker .dateInput:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.dru-date-root {
+    position: fixed;
+    inset: 0;
+    z-index: 10050;
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+    overscroll-behavior: none;
+}
+
+.dru-date-root,
+.dru-date-root * {
+    touch-action: none;
+}
+
+.dru-date-backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--dru-backdrop);
+    animation: dru-date-fade-in 0.28s ease;
+}
+
+.dru-date-root.is-desktop .dru-date-backdrop {
+    background: transparent;
+}
+
+.dru-date-panel {
+    background: var(--dru-panel-bg);
+    overflow: hidden;
+}
+
+.dru-date-panel--sheet {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 16px 16px 0 0;
+    padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+    box-shadow: 0 -8px 32px rgba(24, 34, 48, 0.12);
+    animation: dru-date-sheet-in 0.36s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.dru-date-panel--popover {
+    position: absolute;
+    border-radius: 16px;
+    border: 1px solid var(--dru-border);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    animation: dru-date-popover-in 0.2s ease;
+}
+
+.dru-date-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 44px;
+    padding: 2px 8px 2px 4px;
+    border-bottom: 1px solid var(--dru-border);
+}
+
+.dru-date-title {
+    color: var(--dru-accent);
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.dru-date-btn {
+    appearance: none;
+    background: none;
+    border: none;
+    color: var(--dru-accent);
+    font-size: 17px;
+    line-height: 22px;
+    padding: 10px 12px;
+    font-weight: 400;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.dru-date-btn--done {
+    font-weight: 600;
+}
+
+.dru-date-wheels {
+    position: relative;
+    display: flex;
+    height: 252px;
+    overflow: hidden;
+    touch-action: none;
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        #000 18%,
+        #000 82%,
+        transparent 100%
+    );
+    mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        #000 18%,
+        #000 82%,
+        transparent 100%
+    );
+}
+
+.dru-date-highlight {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    top: 50%;
+    height: 36px;
+    margin-top: -18px;
+    background: var(--dru-highlight);
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.dru-date-column {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    height: 252px;
+    overflow: hidden;
+    perspective: 1200px;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: grab;
+}
+
+.dru-date-column:active {
+    cursor: grabbing;
+}
+
+.month-column {
+    flex: 1.45;
+}
+
+.day-column,
+.year-column,
+.hour-column,
+.minute-column {
+    flex: 0.9;
+}
+
+.dru-date-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.dru-date-item {
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    line-height: 36px;
+    font-weight: 400;
+    color: var(--dru-muted);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform-origin: center center;
+}
+
+.dru-date-item.is-active {
+    color: var(--dru-accent);
+    font-weight: 600;
+}
+
+@keyframes dru-date-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes dru-date-sheet-in {
+    from { transform: translate3d(0, 100%, 0); }
+    to { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes dru-date-popover-in {
+    from {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}

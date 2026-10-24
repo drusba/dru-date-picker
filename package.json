@@ -1,0 +1,88 @@
+{
+  "name": "dru-date-picker",
+  "version": "1.0.0",
+  "description": "iOS-style wheel date/time picker for Vue, React, Nuxt, and vanilla JavaScript. Colors, button text, and date type are customizable per instance.",
+  "type": "module",
+  "license": "MIT",
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drusba/dru-date-picker.git"
+  },
+  "homepage": "https://github.com/drusba/dru-date-picker#readme",
+  "bugs": {
+    "url": "https://github.com/drusba/dru-date-picker/issues"
+  },
+  "keywords": [
+    "datepicker",
+    "timepicker",
+    "datetime",
+    "vue",
+    "react",
+    "nuxt",
+    "web-component",
+    "wheel",
+    "ios"
+  ],
+  "sideEffects": [
+    "**/*.css",
+    "./src/element/DruDatePicker.js",
+    "./dist/index.js"
+  ],
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./vue": {
+      "types": "./src/index.d.ts",
+      "import": "./dist/vue.js"
+    },
+    "./react": {
+      "types": "./src/index.d.ts",
+      "import": "./dist/react.js"
+    },
+    "./nuxt": {
+      "types": "./src/index.d.ts",
+      "import": "./src/nuxt/module.js"
+    },
+    "./style.css": "./src/styles/picker.css"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.13"
+  },
+  "peerDependencies": {
+    "@nuxt/kit": ">=3.0.0",
+    "react": ">=17",
+    "vue": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@nuxt/kit": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "vite": "^6.2.0"
+  }
+}

@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dru-date-picker demo</title>
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f4f1fb;
+            color: #1f1633;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 32px 20px 80px;
+        }
+
+        main {
+            max-width: 720px;
+            margin: 0 auto;
+            display: grid;
+            gap: 20px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        p {
+            margin: 0 0 8px;
+            color: #5b5270;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(31, 22, 51, 0.06);
+        }
+
+        .card h2 {
+            margin: 0 0 6px;
+            font-size: 18px;
+        }
+
+        .value {
+            margin-top: 12px;
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        dru-date-picker,
+        .datepicker-parent-wrapper {
+            display: block;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>dru-date-picker</h1>
+            <p>Same wheel picker, customized per instance: colors, button text, and date type.</p>
+        </header>
+
+        <section class="card">
+            <h2>Birthday date</h2>
+            <p>Purple theme, Close / Set Date, DD-MM-YYYY</p>
+            <div id="birthday"></div>
+            <div class="value" id="birthday-value"></div>
+        </section>
+
+        <section class="card">
+            <h2>Appointment datetime</h2>
+            <p>Teal theme, Cancel / Done, DD-MM-YYYY HH:mm</p>
+            <div id="appointment"></div>
+            <div class="value" id="appointment-value"></div>
+        </section>
+
+        <section class="card">
+            <h2>Time only</h2>
+            <p>Orange theme, Back / Save time</p>
+            <div id="time"></div>
+            <div class="value" id="time-value"></div>
+        </section>
+
+        <section class="card">
+            <h2>Year and month</h2>
+            <p>Spanish months, green theme</p>
+            <div id="year-month"></div>
+            <div class="value" id="year-month-value"></div>
+        </section>
+    </main>
+
+    <script type="module">
+        import { createDatePicker } from './src/index.js';
+
+        const birthday = createDatePicker('#birthday', {
+            mode: 'date',
+            format: 'DD-MM-YYYY',
+            label: 'Birthday',
+            placeholder: 'Select birthday',
+            confirmText: 'Set Date',
+            cancelText: 'Close',
+            minYear: 1920,
+            maxYear: new Date().getFullYear(),
+            accentColor: '#4e169c',
+        });
+
+        const appointment = createDatePicker('#appointment', {
+            mode: 'datetime',
+            format: 'DD-MM-YYYY HH:mm',
+            valueFormat: 'YYYY-MM-DD HH:mm',
+            label: 'Appointment',
+            placeholder: 'Pick date and time',
+            confirmText: 'Done',
+            cancelText: 'Cancel',
+            accentColor: '#0f766e',
+            highlightColor: 'rgba(15, 118, 110, 0.12)',
+            minYear: 2020,
+            maxYear: new Date().getFullYear() + 3,
+        });
+
+        const time = createDatePicker('#time', {
+            mode: 'time',
+            format: 'HH:mm',
+            label: 'Reminder',
+            placeholder: 'Select time',
+            confirmText: 'Save time',
+            cancelText: 'Back',
+            accentColor: '#c2410c',
+            highlightColor: 'rgba(194, 65, 12, 0.12)',
+        });
+
+        const yearMonth = createDatePicker('#year-month', {
+            mode: 'year-month',
+            format: 'MMMM YYYY',
+            valueFormat: 'YYYY-MM',
+            locale: 'es',
+            label: 'Mes',
+            placeholder: 'Elige mes',
+            confirmText: 'Guardar',
+            cancelText: 'Cerrar',
+            accentColor: '#15803d',
+            highlightColor: 'rgba(21, 128, 61, 0.12)',
+        });
+
+        const bind = (picker, id) => {
+            const out = document.querySelector(id);
+            const render = (detail) => {
+                out.textContent = detail
+                    ? `Shown: ${detail.value} · Value: ${detail.date}`
+                    : `Shown: ${picker.value || '—'}`;
+            };
+            render();
+            picker.on('change', (event) => render(event.detail));
+        };
+
+        bind(birthday, '#birthday-value');
+        bind(appointment, '#appointment-value');
+        bind(time, '#time-value');
+        bind(yearMonth, '#year-month-value');
+    </script>
+</body>
+</html>
