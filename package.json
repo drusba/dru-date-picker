@@ -1,13 +1,13 @@
 {
   "name": "dru-date-picker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "iOS-style wheel date/time picker for Vue, React, Next.js, Nuxt, and vanilla JavaScript. Colors, button text, and date type are customizable per instance.",
   "type": "module",
   "license": "MIT",
   "author": "",
   "repository": {
     "type": "git",
-    "url": "https://github.com/drusba/dru-date-picker.git"
+    "url": "git+https://github.com/drusba/dru-date-picker.git"
   },
   "homepage": "https://github.com/drusba/dru-date-picker#readme",
   "bugs": {
@@ -73,8 +73,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "dayjs": "^1.11.13",
-    "dru-date-picker": "^0.0.0-stage"
+    "dayjs": "^1.11.13"
   },
   "peerDependencies": {
     "@nuxt/kit": ">=3.0.0",
