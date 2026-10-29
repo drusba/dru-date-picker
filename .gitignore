@@ -3,3 +3,6 @@ dist
 .DS_Store
 *.log
 .vite
+docs/video-raw
+docs/demo-source.webm
+docs/frame-*.png

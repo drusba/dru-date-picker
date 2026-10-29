@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dru-date-picker — iOS-style wheel date picker for JavaScript</title>
+    <meta name="description" content="Lightweight iOS-style wheel date picker for JavaScript. Touch-friendly scrolling wheels for date, time, and datetime in Vue, React, Next.js, Nuxt, and vanilla JS." />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://drusba.github.io/dru-date-picker/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="dru-date-picker — iOS-style wheel date picker for JavaScript" />
+    <meta property="og:description" content="Touch-friendly iOS-style scrolling wheels for date, time, and datetime. Vanilla JS, Vue, React, Next.js, and Nuxt." />
+    <meta property="og:url" content="https://drusba.github.io/dru-date-picker/" />
+    <meta property="og:image" content="https://raw.githubusercontent.com/drusba/dru-date-picker/main/docs/demo.gif" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="dru-date-picker — iOS-style wheel date picker for JavaScript" />
+    <meta name="twitter:description" content="Lightweight iOS-style wheel date picker for JavaScript." />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dru-date-picker@1/src/styles/picker.css" />
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "dru-date-picker",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web",
+        "license": "https://opensource.org/licenses/MIT",
+        "description": "Lightweight iOS-style wheel date picker for JavaScript with touch-friendly scrolling wheels.",
+        "url": "https://www.npmjs.com/package/dru-date-picker",
+        "codeRepository": "https://github.com/drusba/dru-date-picker",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f4f1fb;
+            color: #1f1633;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 32px 20px 80px;
+        }
+
+        main {
+            max-width: 720px;
+            margin: 0 auto;
+            display: grid;
+            gap: 20px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+        }
+
+        p {
+            margin: 0 0 8px;
+            color: #5b5270;
+            line-height: 1.5;
+        }
+
+        .links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 14px;
+        }
+
+        .links a { color: #4e169c; }
+
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(31, 22, 51, 0.06);
+        }
+
+        .card h2 {
+            margin: 0 0 6px;
+            font-size: 18px;
+        }
+
+        pre {
+            margin: 12px 0 0;
+            padding: 12px 14px;
+            overflow: auto;
+            background: #1f1633;
+            color: #f4f1fb;
+            border-radius: 10px;
+            font-size: 13px;
+        }
+
+        .value {
+            margin-top: 12px;
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        dru-date-picker,
+        .datepicker-parent-wrapper {
+            display: block;
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <header>
+            <h1>dru-date-picker</h1>
+            <p>
+                Lightweight iOS-style wheel date picker for JavaScript.
+                Scroll date, time, or datetime on touch-friendly wheels.
+                This demo is the published npm package, not a mock UI.
+            </p>
+            <p class="links">
+                <a href="https://www.npmjs.com/package/dru-date-picker">npm</a>
+                <a href="https://github.com/drusba/dru-date-picker">GitHub</a>
+            </p>
+        </header>
+
+        <section class="card">
+            <h2>Install</h2>
+            <pre>npm install dru-date-picker</pre>
+        </section>
+
+        <section class="card">
+            <h2>Birthday date</h2>
+            <p>Years now-120 to now · Close / Set Date</p>
+            <div id="birthday"></div>
+            <div class="value" id="birthday-value"></div>
+        </section>
+
+        <section class="card">
+            <h2>Appointment datetime</h2>
+            <p>Years now to now+5 · Cancel / Done</p>
+            <div id="appointment"></div>
+            <div class="value" id="appointment-value"></div>
+        </section>
+
+        <section class="card">
+            <h2>Time only</h2>
+            <p>Orange theme, Back / Save time</p>
+            <div id="time"></div>
+            <div class="value" id="time-value"></div>
+        </section>
+
+        <section class="card">
+            <h2>Year and month</h2>
+            <p>Fixed 1990 to now+1 · Spanish months</p>
+            <div id="year-month"></div>
+            <div class="value" id="year-month-value"></div>
+        </section>
+    </main>
+
+    <script type="module">
+        import { createDatePicker } from 'https://cdn.jsdelivr.net/npm/dru-date-picker@1/+esm';
+
+        const birthday = createDatePicker('#birthday', {
+            mode: 'date',
+            format: 'DD-MM-YYYY',
+            label: 'Birthday',
+            placeholder: 'Select birthday',
+            confirmText: 'Set Date',
+            cancelText: 'Close',
+            minYear: 'now-120',
+            maxYear: 'now',
+            accentColor: '#4e169c',
+        });
+
+        const appointment = createDatePicker('#appointment', {
+            mode: 'datetime',
+            format: 'DD-MM-YYYY HH:mm',
+            valueFormat: 'YYYY-MM-DD HH:mm',
+            label: 'Appointment',
+            placeholder: 'Pick date and time',
+            confirmText: 'Done',
+            cancelText: 'Cancel',
+            accentColor: '#0f766e',
+            highlightColor: 'rgba(15, 118, 110, 0.12)',
+            minYear: 'now',
+            maxYear: 'now+5',
+        });
+
+        const time = createDatePicker('#time', {
+            mode: 'time',
+            format: 'HH:mm',
+            label: 'Reminder',
+            placeholder: 'Select time',
+            confirmText: 'Save time',
+            cancelText: 'Back',
+            accentColor: '#c2410c',
+            highlightColor: 'rgba(194, 65, 12, 0.12)',
+        });
+
+        const yearMonth = createDatePicker('#year-month', {
+            mode: 'year-month',
+            format: 'MMMM YYYY',
+            valueFormat: 'YYYY-MM',
+            locale: 'es',
+            label: 'Mes',
+            placeholder: 'Elige mes',
+            minYear: 1990,
+            maxYear: 'now+1',
+            confirmText: 'Guardar',
+            cancelText: 'Cerrar',
+            accentColor: '#15803d',
+            highlightColor: 'rgba(21, 128, 61, 0.12)',
+        });
+
+        const bind = (picker, id) => {
+            const out = document.querySelector(id);
+            const render = (detail) => {
+                out.textContent = detail
+                    ? `Shown: ${detail.value} · Value: ${detail.date}`
+                    : `Shown: ${picker.value || '—'}`;
+            };
+            render();
+            picker.on('change', (event) => render(event.detail));
+        };
+
+        bind(birthday, '#birthday-value');
+        bind(appointment, '#appointment-value');
+        bind(time, '#time-value');
+        bind(yearMonth, '#year-month-value');
+    </script>
+</body>
+</html>

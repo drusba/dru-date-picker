@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://drusba.github.io/dru-date-picker/sitemap.xml

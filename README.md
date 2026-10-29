@@ -1,12 +1,27 @@
 # dru-date-picker
 
-iOS-style wheel date/time picker for **Vue 3**, **React**, **Next.js**, **Nuxt 3**, and **vanilla JavaScript**.
+Lightweight **iOS-style wheel date picker** for JavaScript. Scroll date, time, or datetime on touch-friendly wheels — in **Vue 3**, **React**, **Next.js**, **Nuxt 3**, or vanilla JS.
 
-Every instance can set its own **colors**, **button text**, and **date type**.
+This is a custom wheel UI inspired by iPhone, not the native iOS `UIDatePicker`.
+
+[![npm version](https://img.shields.io/npm/v/dru-date-picker.svg)](https://www.npmjs.com/package/dru-date-picker)
+[![npm downloads](https://img.shields.io/npm/dm/dru-date-picker.svg)](https://www.npmjs.com/package/dru-date-picker)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/dru-date-picker)](https://bundlephobia.com/package/dru-date-picker)
+[![license](https://img.shields.io/npm/l/dru-date-picker.svg)](./LICENSE)
 
 <p align="center">
-  <img src="docs/demo.gif" alt="dru-date-picker demo" width="360" />
+  <img src="https://raw.githubusercontent.com/drusba/dru-date-picker/main/docs/demo.gif" alt="iOS-style JavaScript wheel date picker selecting a date on a mobile sheet" width="360" />
 </p>
+
+**npm:** [dru-date-picker](https://www.npmjs.com/package/dru-date-picker) · **GitHub:** [drusba/dru-date-picker](https://github.com/drusba/dru-date-picker)
+
+## Features
+
+- iOS-style scrolling wheels for date, datetime, time, and year-month
+- Touch-friendly on mobile; popover on desktop
+- Per-instance colors, button text, locale, and date bounds
+- Web component at the core — same API from vanilla JS or a framework wrapper
+- About 9 kB gzipped (plus [dayjs](https://www.npmjs.com/package/dayjs))
 
 ## Install
 
@@ -14,13 +29,50 @@ Every instance can set its own **colors**, **button text**, and **date type**.
 npm install dru-date-picker
 ```
 
-Import styles once if you are not using the JS entry that injects them automatically:
+Styles inject when the picker mounts. Import them yourself only if you need the CSS loaded up front:
 
 ```js
 import 'dru-date-picker/style.css'
 ```
 
-The web component also injects the CSS the first time it mounts, so a separate import is optional.
+## Quick start
+
+```js
+import { createDatePicker } from 'dru-date-picker'
+
+const picker = createDatePicker('#dob', {
+  mode: 'date',
+  format: 'DD-MM-YYYY',
+  minYear: 'now-120',
+  maxYear: 'now',
+  confirmText: 'Set Date',
+  cancelText: 'Close',
+  accentColor: '#4e169c',
+})
+
+picker.on('change', (event) => {
+  console.log(event.detail.value, event.detail.date, event.detail.iso)
+})
+```
+
+Or the custom element after importing the package:
+
+```html
+<dru-date-picker
+  mode="datetime"
+  min-year="now"
+  max-year="now+5"
+  confirm-text="Done"
+  cancel-text="Cancel"
+></dru-date-picker>
+```
+
+### Local demo
+
+```bash
+npm install
+npm run dev
+```
 
 ## Customization
 
@@ -45,8 +97,10 @@ The web component also injects the CSS the first time it mounts, so a separate i
 | `highlightColor` | `rgba(78, 22, 156, 0.08)` | Center highlight |
 | `backdropColor` | `rgba(24, 34, 48, 0.36)` | Mobile sheet overlay |
 | `borderColor` | `#e5e7eb` | Borders |
+| `disabled` | `false` | Disable the input |
+| `onTick` | — | Called when a wheel item crosses the center (haptics) |
 
-You can also set the same colors with CSS variables on the host:
+CSS variables on the host:
 
 ```css
 dru-date-picker {
@@ -55,24 +109,20 @@ dru-date-picker {
 }
 ```
 
-Each instance sets its own year range. Bounds are resolved when the picker opens, so `'now'` always means the current year.
+Year bounds resolve when the picker opens, so `'now'` is always the current year:
 
 ```js
-// Birthday: 120 years back through this year
-minYear: 'now-120',
-maxYear: 'now',
+minYear: 'now-120'   // birthday
+maxYear: 'now'
 
-// Booking: this year through 5 years ahead
-minYear: 'now',
-maxYear: 'now+5',
+minYear: 'now'       // booking
+maxYear: 'now+5'
 
-// Age gate: 18+
-minYearOffset: -120,
-maxYearOffset: -18,
+minYearOffset: -120  // 18+
+maxYearOffset: -18
 
-// Fixed years
-minYear: 2000,
-maxYear: 2030,
+minYear: 2000        // fixed range
+maxYear: 2030
 ```
 
 ```html
@@ -104,7 +154,7 @@ app.use(DruDatePicker)
 />
 ```
 
-Or import the component directly:
+Or import the component:
 
 ```js
 import { DruDatePicker } from 'dru-date-picker/vue'
@@ -118,7 +168,7 @@ export default defineNuxtConfig({
 })
 ```
 
-Then use `<DruDatePicker v-model="date" mode="date" />` in any page or component.
+Then use `<DruDatePicker v-model="date" mode="date" />` in any page.
 
 ## React
 
@@ -146,7 +196,7 @@ export function Example() {
 
 ## Next.js
 
-Use the Next entry so the picker only mounts in the browser. That avoids App Router / SSR errors with the custom element.
+Import from the Next entry so the picker mounts only in the browser. That avoids App Router / SSR errors with the custom element.
 
 ```jsx
 'use client'
@@ -174,57 +224,51 @@ export default function BirthdayField() {
 
 Works with the App Router and the Pages Router. Import it from a Client Component, or keep `'use client'` on the file that renders it.
 
-## Vanilla JavaScript
+## API
 
-```js
-import { createDatePicker } from 'dru-date-picker'
+`createDatePicker(target, options)` returns:
 
-const picker = createDatePicker('#dob', {
-  mode: 'date',
-  format: 'DD-MM-YYYY',
-  minYear: 'now-120',
-  maxYear: 'now',
-  confirmText: 'Save',
-  cancelText: 'Close',
-  accentColor: '#4e169c',
-})
+| Method / property | Description |
+| --- | --- |
+| `value` | Current display value |
+| `open()` | Open the wheel panel |
+| `close()` | Close without confirming |
+| `setYearBounds(min, max)` | Update year wheels without recreating the picker |
+| `on(event, handler)` | Subscribe; returns an unsubscribe function |
+| `destroy()` | Remove the picker from the DOM |
+| `el` | The `dru-date-picker` element |
 
-// Change bounds later without recreating the picker
-picker.setYearBounds(2000, 'now+2')
+### Events
 
-picker.on('change', (event) => {
-  console.log(event.detail.value, event.detail.date)
-})
-```
+| Event | Detail |
+| --- | --- |
+| `change` | `{ value, date, iso }` after confirm |
+| `confirm` | same payload |
+| `cancel` | — |
+| `open` | — |
+| `close` | — |
 
-You can also drop the custom element in HTML after importing the package:
+## Keyboard
 
-```html
-<dru-date-picker
-  mode="time"
-  confirm-text="Save time"
-  cancel-text="Back"
-  accent-color="#c2410c"
-></dru-date-picker>
-```
+- Click or Enter on the input opens the picker
+- `Escape` cancels
+- `Enter` (while open) confirms
 
-## Events
+Wheels are primarily drag / scroll. This is not a native iOS control and does not yet expose a full ARIA listbox.
 
-- `change` — `{ value, date, iso }` after confirm
-- `confirm` — same payload
-- `cancel`
-- `open`
-- `close`
+## Troubleshooting
 
-`onTick` is an optional callback fired as a wheel item crosses the center. Use it for haptics or other native feedback.
+| Problem | Fix |
+| --- | --- |
+| Next.js / SSR error about `window` or custom elements | Import from `dru-date-picker/next` inside a Client Component |
+| Picker looks unstyled | `import 'dru-date-picker/style.css'` |
+| Target not found | `createDatePicker` needs a CSS selector or DOM node that already exists |
+| Months stay in English | Set `locale` (e.g. `'es'`) or pass `months` |
 
-## Local demo
+## Contributing
 
-```bash
-npm install
-npm run dev
-```
+See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
-MIT
+[MIT](./LICENSE)
